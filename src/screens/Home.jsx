@@ -3,14 +3,13 @@ import {
   View,
   Text,
   FlatList,
-  Image,
   StyleSheet,
-  TouchableOpacity,
   ActivityIndicator,
 } from 'react-native';
 import axios from 'axios';
 import Header from '../components/Header';
 import Card from "../components/Card"
+
 const Home = ({ navigation }) => {
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);

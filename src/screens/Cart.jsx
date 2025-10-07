@@ -11,7 +11,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { clearCart } from '../redux/cartSlice';
 import CartCard from '../components/CartCard';
 
-const Cart = () => {
+const Cart = ({navigation}) => {
   const { cartItems } = useSelector(state => state.cart);
   const dispatch = useDispatch();
 
@@ -35,7 +35,7 @@ const Cart = () => {
         data={cartItems}
         keyExtractor={item => item.id.toString()}
         ListEmptyComponent={<Text style={styles.emptyText}>Cart is empty</Text>}
-        renderItem={({ item }) => <CartCard item={item} />}
+        renderItem={({ item }) => <CartCard item={item} navigation={navigation} />}
       />
 
       {cartItems.length > 0 && (

@@ -42,7 +42,7 @@ const ProductDetail = ({ route, navigation }) => {
         <Image source={{ uri: selectedImage }} style={styles.image} />
 
         <FlatList
-          data={product.images}
+          data={product?.images}
           horizontal
           keyExtractor={(item, index) => index.toString()}
           renderItem={({ item }) => (

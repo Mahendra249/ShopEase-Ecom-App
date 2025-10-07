@@ -3,45 +3,48 @@ import { View, Text, Image, TouchableOpacity, StyleSheet } from 'react-native';
 import { useDispatch } from 'react-redux';
 import { removeFromCart, incrementQty, decrementQty } from '../redux/cartSlice';
 
-const CartCard = ({ item }) => {
+const CartCard = ({ item, navigation }) => {
   const dispatch = useDispatch();
 
   return (
     <View style={styles.itemContainer}>
-      <Image source={{ uri: item.image }} style={styles.image} />
+      <TouchableOpacity>
+        <Image source={{ uri: item.image }} style={styles.image} />
+      </TouchableOpacity>
 
       <View style={styles.info}>
-        <Text style={styles.title}>{item.title}</Text>
-        <Text style={styles.price}>${item.price.toFixed(2)}</Text>
+        <View>
+          <Text style={styles.title}>{item.title}</Text>
+          <Text style={styles.price}>${item.price.toFixed(2)}</Text>
 
-        <View style={styles.quantityRow}>
-          <TouchableOpacity
-            onPress={() => dispatch(decrementQty(item.id))}
-            style={styles.qtyBtn}
-          >
-            <Text style={styles.qtyText}>-</Text>
-          </TouchableOpacity>
+          <View style={styles.quantityRow}>
+            <Text style={styles.total}>
+              Total: ${(item.price * item.quantity).toFixed(2)}
+            </Text>
+            <TouchableOpacity
+              onPress={() => dispatch(decrementQty(item.id))}
+              style={styles.qtyBtn}
+            >
+              <Text style={styles.qtyText}>-</Text>
+            </TouchableOpacity>
 
-          <Text style={styles.quantity}>{item.quantity}</Text>
+            <Text style={styles.quantity}>{item.quantity}</Text>
 
-          <TouchableOpacity
-            onPress={() => dispatch(incrementQty(item.id))}
-            style={styles.qtyBtn}
-          >
-            <Text style={styles.qtyText}>+</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              onPress={() => dispatch(incrementQty(item.id))}
+              style={styles.qtyBtn}
+            >
+              <Text style={styles.qtyText}>+</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-
-        <Text style={styles.total}>
-          Total: ${(item.price * item.quantity).toFixed(2)}
-        </Text>
       </View>
 
       <TouchableOpacity
         style={styles.removeButton}
         onPress={() => dispatch(removeFromCart(item.id))}
       >
-        <Text style={styles.removeText}>Remove</Text>
+        <Text style={styles.removeText}>❌</Text>
       </TouchableOpacity>
     </View>
   );
@@ -51,6 +54,7 @@ export default CartCard;
 
 const styles = StyleSheet.create({
   itemContainer: {
+    position: 'relative',
     flexDirection: 'row',
     backgroundColor: '#fff',
     borderRadius: 10,
@@ -66,11 +70,13 @@ const styles = StyleSheet.create({
   info: {
     flex: 1,
     marginLeft: 10,
+    flexDirection: 'row',
   },
   title: {
     fontSize: 16,
     fontWeight: 'bold',
     marginBottom: 5,
+    width: 200,
   },
   price: {
     fontSize: 14,
@@ -102,9 +108,13 @@ const styles = StyleSheet.create({
   total: {
     fontSize: 14,
     fontWeight: '600',
+    marginRight: 30,
   },
   removeButton: {
-    backgroundColor: '#ef4444',
+    position: 'absolute',
+    top: 5,
+    right: 2,
+    // backgroundColor: '#ef4444',
     paddingHorizontal: 10,
     paddingVertical: 5,
     borderRadius: 5,
